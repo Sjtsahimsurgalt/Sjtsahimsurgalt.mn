@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Миний Танилцуулга</title>
+    <link rel="icon" type="image/png" href="357774437_773708234453602_615917626188208180_n.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #2d3748;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(182, 119, 198, 0.3), transparent 50%);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+        }
+
+        /* Зүүн хэсэг - Танилцуулга */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            position: sticky;
+            top: 40px;
+            height: fit-content;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 4px solid rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .profession {
+            color: #667eea;
+            font-size: 14px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: 600;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+            margin: 25px 0;
+        }
+
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #718096;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: #2d3748;
+            line-height: 1.5;
+        }
+
+        .info-value a {
+            color: #2d3748;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .info-value a:hover {
+            color: #667eea;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Баруун хэсэг - Үндсэн агуулга */
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+            padding-bottom: 0;
+        }
+
+        .nav-item {
+            color: #718096;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 15px 0;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .nav-item:hover {
+            color: #667eea;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 32px;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            color: #718096;
+            font-size: 16px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* About хэсэг */
+        .about-text {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+            border-color: rgba(102, 126, 234, 0.4);
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .service-title {
+            font-size: 18px;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .service-description {
+            color: #718096;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .training-expandable {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .training-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            color: #4a5568;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-top: 0;
+        }
+
+        .training-expandable.expanded .training-detail {
+            max-height: 200px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        /* Resume хэсэг */
+        .timeline {
+            margin-top: 30px;
+        }
+
+        .timeline-item {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-left: 4px solid #667eea;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+            transform: translateX(5px);
+        }
+
+        .timeline-date {
+            color: #667eea;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .timeline-title {
+            color: #2d3748;
+            font-size: 18px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .timeline-subtitle {
+            color: #718096;
+            font-size: 14px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .timeline-description {
+            color: #4a5568;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Responsive iframe container */
+        .responsive-iframe-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 75%;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .responsive-iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Copyright footer */
+        .copyright-footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(102, 126, 234, 0.2);
+            text-align: center;
+            color: #718096;
+            font-size: 14px;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .main-content {
+                padding: 25px 20px;
+            }
+
+            .nav-menu {
+                overflow-x: auto;
+                gap: 20px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Зүүн хэсэг -->
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="profile-image">
+                    <img src="357774437_773708234453602_615917626188208180_n.jpg" alt="Profile Photo">
+                </div>
+                <h1>Б.Санжаа</h1>
+                <div class="profession">КУ-ын магистер</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="info-list">
+                <div class="info-item">
+                    <div class="info-icon">📧</div>
+                    <div class="info-content">
+                        <div class="info-label">И-мэйл</div>
+                        <div class="info-value">
+                            <a href="mailto:sjtsahimsurgalt@gmail.com">sjtsahimsurgalt@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">📱</div>
+                    <div class="info-content">
+                        <div class="info-label">Утас</div>
+                        <div class="info-value">
+                            <a href="tel:+97689241991">+976 89241991</a>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+            <div class="social-links">
+                <a href="https://www.facebook.com/SjTsahimComputerSurgalt" class="social-btn" target="_blank" title="Facebook">
+                    <span>f</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Баруун хэсэг -->
+        <main class="main-content">
+            <nav class="nav-menu">
+                <div class="nav-item active" onclick="showSection('about')">Миний тухай</div>
+                <div class="nav-item" onclick="showSection('resume')">Боловсрол</div>
+                <div class="nav-item" onclick="showSection('training')">Сургалтууд</div>
+                <div class="nav-item" onclick="showSection('blog')">Гэрээ</div>
+            </nav>
+
+            <!-- About Section -->
+            <section id="about" class="section active">
+                <h2 class="section-title">Миний тухай</h2>
+                <p class="about-text">
+                    Программ хангамжийн чиглэлээр магистрын зэрэгтэй. Хүний нөөц, сургалт хөгжлийн менежер, багш, удирдлага, судалгаа, дата анализ зэрэг олон чиглэлд ажиллаж байсан туршлагатай. Мэдээллийн технологи, программ хангамжийн салбарт шинэ технологи, арга зүйд сонирхолтой бөгөөд байнга суралцахыг эрмэлздэг. Багаар ажиллах, манлайлал, дасан зохицох, асуудал шийдвэрлэх чадвартай. Эелдэг, шударга, тууштай хандлагатай бөгөөд хамтран ажиллахад үргэлж бэлэн байдаг. Төрийн бус байгууллага, сайн дурын үйл ажиллагаанд идэвхтэй оролцож, нийгэмд эерэг өөрчлөлт хийхийг зорьдог.
+                </p>
+
+                <h3 class="section-title" style="font-size: 24px; margin-top: 50px; margin-bottom: 30px;">
+                    Миний хийдэг зүйлс
+                </h3>
+
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">🎨</div>
+                        <h4 class="service-title">Вэб дизайн</h4>
+                        <p class="service-description">
+                            UX, UI дизайн боловсруулах.
+                        </p>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">💻</div>
+                        <h4 class="service-title">Вэб програмчлал</h4>
+                        <p class="service-description">
+                            Вэб сайтуудыг мэргэжлийн түвшинд өндөр чанартай хөгжүүлдэг.
+                        </p>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">🖨️</div>
+                        <h4 class="service-title">Хэвлэл график дизайны багш</h4>
+                        <p class="service-description">
+                            Adobe Photoshop, Illustrator, InDesign программуудыг ашиглан мэргэжлийн график дизайны сургалт явуулдаг.
+                        </p>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">🎓</div>
+                        <h4 class="service-title">IT сургалт</h4>
+                        <p class="service-description">
+                            Компьютерын үндсэн ойлголт, Microsoft Office, Мэдээллийн аюулгүй байдал болон кодчилол, сүлжээний үндсийг заадаг.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="copyright-footer">
+                    © Бүх эрх хуулиар хамгаалагдсан.
+                </div>
+            </section>
+
+            <!-- Resume Section -->
+            <section id="resume" class="section">
+                <h2 class="section-title">Түүхэн замнал</h2>
+                <p class="section-subtitle">
+                    Миний мэргэжлийн хөгжил, боловсрол, туршлага
+                </p>
+
+                <h3 style="color: #667eea; font-size: 20px; margin-bottom: 20px; font-weight: 700;">📚 Боловсрол</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">2013 — 2017</div>
+                        <div class="timeline-title">Бакалавр|Программ хангамж</div>
+                        <div class="timeline-subtitle">Монголын Үндэсний Их сургууль</div>
+                        <div class="timeline-description">
+                            Компьютерын ухаан, программ хангамжийн хөгжүүлэлт, мэдээллийн системийн 
+                            удирдлагын чиглэлээр мэргэшсэн.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2017 — 2018</div>
+                        <div class="timeline-title">Магистер|Программ хангамж</div>
+                        <div class="timeline-subtitle">Монголын Үндэсний Их сургууль</div>
+                        <div class="timeline-description">
+                            Компьютерын ухаан, программ хангамжийн хөгжүүлэлт, мэдээллийн системийн 
+                            удирдлагын чиглэлээр мэргэшсэн.
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="color: #667eea; font-size: 20px; margin-bottom: 20px; margin-top: 40px; font-weight: 700;">📚 Сургалт, Сертификат</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">2024</div>
+                        <div class="timeline-title">GROW BIZ LLC</div>
+                        <div class="timeline-subtitle">AI маркетинг Сургалт & Практик сургалт</div>
+                    </div>
+                
+                    <div class="timeline-item">
+                        <div class="timeline-date">2024</div>
+                        <div class="timeline-title">Багш +AI = сургалт судалгаанд хиймэл оюун ашиглах нь</div>
+                        <div class="timeline-subtitle">UFE-СЭЗИС</div>
+                    </div>
+                
+                    <div class="timeline-item">
+                        <div class="timeline-date">2023</div>
+                        <div class="timeline-title">The Complete 2023 Web Development Bootcamp</div>
+                        <div class="timeline-subtitle">Udemy</div>
+                    </div>
+                
+                    <div class="timeline-item">
+                        <div class="timeline-date">2023</div>
+                        <div class="timeline-title">МЭДЭЭЛЛИЙН ТЕХНОЛОГИЙН БАГШИЙН МЭРГЭЖИЛ ДЭЭШЛҮҮЛЭХ 5 ЖИЛ</div>
+                        <div class="timeline-subtitle">Боловсролын Ерөнхий Газар</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2019</div>
+                        <div class="timeline-title">Онлайн форумын бүрэн вэб сайтыг эхнээс нь (Laravel, VueJS, Pusher, JWT)</div>
+                        <div class="timeline-subtitle">Primitive Mind LLC</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2019</div>
+                        <div class="timeline-title">Багшлах мэргэжил сертификатын сургалт</div>
+                        <div class="timeline-subtitle">МУБИС-Багшлах эрхийн сургалт</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2018</div>
+                        <div class="timeline-title">Сургах зүйн чадамж эзэмшүүлэх багшлах эрхийн сургалт</div>
+                        <div class="timeline-subtitle">МБС-ийн багшлах эрхийн сургалт</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2012</div>
+                        <div class="timeline-title">Сургагч багш</div>
+                        <div class="timeline-subtitle">Монголын хөгжлийн төв ТББ</div>
+                    </div>
+                </div>
+
+                <h3 style="color: #667eea; font-size: 20px; margin: 40px 0 20px; font-weight: 700;">💼 Ажлын туршлага</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-title">Хэвлэл график дизайны багш</div>
+                        <div class="timeline-subtitle">Дорноговь аймаг дахь Политехник коллеж</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-title">Мэдээлэл Технологийн багш</div>
+                        <div class="timeline-subtitle">Монгол-од америк монголын хамтарсан бүрэн дунд сургууль</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-title">Программ хангамжийн багш</div>
+                        <div class="timeline-subtitle">Монголын үндэсний их сургууль</div>
+                    </div>
+                </div>
+                
+                <div class="copyright-footer">
+                    © Бүх эрх хуулиар хамгаалагдсан.
+                </div>
+            </section>
+
+            <!-- Сургалтууд Section -->
+            <section id="training" class="section">
+                <h2 class="section-title">Сургалтууд</h2>
+                <p class="section-subtitle">
+                    Миний явуулдаг сургалтын хөтөлбөрүүд
+                </p>
+
+                <div class="services-grid">
+                    <div class="service-card training-expandable" onclick="toggleTrainingDetail(this)">
+                        <div class="service-icon">💻</div>
+                        <h4 class="service-title">Вэб програмчлал</h4>
+                        <p class="service-description">
+                            Web програмчлалын сургалт нь вэб сайт болон веб аппликейшн боловсруулах мэдлэг, чадвар олгох сургалт юм. Энэ сургалтаар вебийн бүтэц, дизайн болон статик үйлдэлтэй веб сайтыг бүтээнэ.
+                        </p>
+                        <div class="training-detail">
+                            Front-end болон back-end хөгжүүлэлтийн үндсийг суралцаж, бодит төсөл дээр ажиллах боломжтой. 
+                            HTML, CSS, JS, Bootstrap, MySQL Live Server, Github, Visual studio code зэрэг технологиудыг ашиглан анхан шатнаас хэрэглээний шат хүртэл суралцах.
+                        </div>
+                    </div>
+
+                    <div class="service-card training-expandable" onclick="toggleTrainingDetail(this)">
+                        <div class="service-icon">🖥️</div>
+                        <h4 class="service-title">Мэдээллийн технологи</h4>
+                        <p class="service-description">
+                            IT сургалт нь мэдээллийн технологийн мэдлэг, чадвар эзэмшүүлэхэд чиглэсэн сургалт юм. Энэхүү сургалтаар компьютер, програм хангамж, сүлжээ, мэдээллийн систем болон дижитал технологийг ашиглах, хөгжүүлэх суурь ойлголт ур чадваруудыг эзэмшүүлнэ.
+                        </p>
+                        <div class="training-detail">
+                            Мэдээллийн аюулгүй байдал сүлжээний үндсийг заана. IT мэргэжилтнүүдэд шаардлагатай 
+                            бүх үндсэн ур чадваруудыг олгоно.
+                        </div>
+                    </div>
+
+                    <div class="service-card training-expandable" onclick="toggleTrainingDetail(this)">
+                        <div class="service-icon">🎨</div>
+                        <h4 class="service-title">График дизайн</h4>
+                        <p class="service-description">
+                            График дизайн сургалт нь мэдээлэл, санааг дүрс, өнгө, шрифт болон зохиомж ашиглан илэрхийлэх мэдлэг, чадвар эзэмшүүлэхэд чиглэсэн сургалт юм. Энэхүү сургалтаар суралцагчид хэвлэлийн болон дижитал дизайны үндэс, дизайны програмууд ашиглах арга барилыг сурна.
+                        </p>
+                        <div class="training-detail">
+                            Adobe Photoshop, Illustrator, InDesign программуудыг ашиглан мэргэжлийн график дизайн бүтээх.
+                        </div>
+                    </div>
+
+                    <div class="service-card training-expandable" onclick="toggleTrainingDetail(this)">
+                        <div class="service-icon">🖥️</div>
+                        <h4 class="service-title">Windows орчны програмчлал</h4>
+                        <p class="service-description">
+                            Windows орчны програмчлалын сургалт нь Windows үйлдлийн систем дээр ажиллах програм боловсруулах мэдлэг, чадвар олгох сургалт юм. Энэ сургалтаар програмчлалын суурь ойлголт, объект хандалтат програмчлал болон график интерфэйстэй програм бүтээх арга барилыг сурна.
+                        </p>
+                        <div class="training-detail">
+                            Энэхүү сургалтын үр дүнд суралцагчид Windows үйлдлийн систем дээр ажиллах энгийн болон дунд түвшний desktop програм боловсруулах чадвартай болж, бие даан програмын төсөл боловсруулах суурь мэдлэгтэй болно.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="copyright-footer">
+                    © Бүх эрх хуулиар хамгаалагдсан.
+                </div>
+            </section>
+
+            <!-- Blog Section -->
+            <section id="blog" class="section">
+                <h2 class="section-title">Гэрээ</h2>
+                <p class="section-subtitle">
+                    Хэрэв та сургалтад бүртгүүлэх бол дараах холбоосоор орж гэрээгээ хийнэ үү.
+                </p>
+                <div class="about-text">
+                    <div class="responsive-iframe-container">
+                        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdQ-lWcV9hHL3HT7oZ3nRTYi2zYyr32YM3IKrwJIN9G-DBZcA/viewform?usp=dialog" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                    </div>
+                </div>
+                <div class="copyright-footer">
+                    © Бүх эрх хуулиар хамгаалагдсан.
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script>
+        function showSection(sectionId) {
+            // Бүх section-үүдээс active class авах
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Бүх nav item-үүдээс active class авах
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Сонгосон section болон nav item-д active class нэмэх
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function toggleTrainingDetail(element) {
+            element.classList.toggle('expanded');
+        }
+    </script>
+</body>
+</html>
